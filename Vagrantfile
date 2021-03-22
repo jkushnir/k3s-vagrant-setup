@@ -15,9 +15,13 @@ Vagrant.configure("2") do |config|
     node.vm.hostname = "server"
     node.vm.network "private_network", ip: IP_SERVER, virtualbox__hostnet: VM_NETWORK, adapter: 2
     node.vm.provision "file", source: "./k3s-server.service", destination: "~/k3s-server.service"
+    node.vm.provision "file", source: "./k3s-server.service", destination: "~/k3s-server.service"
     node.vm.provision "shell" do |s|
       s.env = {NODE_IP:IP_SERVER,NODE_EXTERNAL_IP:IP_SERVER,NODE_NAME:"server"}
       s.path = "./k3s-server-init.sh"
+    end
+    node.vm.provision "shell" do |s|
+      s.path = "./enable-ssh-password.sh"
     end
   end
 
@@ -29,6 +33,9 @@ Vagrant.configure("2") do |config|
       node.vm.provision "shell" do |s|
         s.env = {NODE_IP:"#{IP_WORKER}#{i}",NODE_EXTERNAL_IP:"#{IP_WORKER}#{i}",NODE_NAME:"worker#{i}",SERVER_IP:IP_SERVER}
         s.path = "./k3s-agent-init.sh"
+      end
+      node.vm.provision "shell" do |s|
+        s.path = "./enable-ssh-password.sh"
       end
     end
   end
