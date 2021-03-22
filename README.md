@@ -1,5 +1,7 @@
 # k3s vagrant setup
 
+## added password authentication for quick tests without the need for ssh key
+
 Minimal [vagrant](https://www.vagrantup.com/) setup to test [k3s](https://k3s.io/).
 
 Use `./up.sh` to spawn a `k3s` cluster composed of 1 server and 3 agents.
